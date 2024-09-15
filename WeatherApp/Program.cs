@@ -29,6 +29,9 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
 
 });
 
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 builder.Services.AddScoped(typeof(NotFoundFilter<>));
 builder.Services.AddAutoMapper(typeof(MapProfile));
 builder.Services.AddHttpClient<ICountryApiService, CountryApiService>();
@@ -79,6 +82,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 // Add Memory Cache Service
 builder.Services.AddMemoryCache();
 var app = builder.Build();
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 app.UseCustomException();
 app.UseHttpsRedirection();
 app.UseAuthentication();
